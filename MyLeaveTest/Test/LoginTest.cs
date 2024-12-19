@@ -1,42 +1,34 @@
 ﻿using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
-using MyLeaveTest.Pages.LoginPage;
 using OpenQA.Selenium.Chrome;
+using MyLeaveTest.Pages;
 
 namespace MyLeaveTest.Test
 {
     [TestClass]
-    public class LoginTest
+    public class LoginTest: BaseTest
     {
-        private IWebDriver driver;
         private LoginPage loginPage;
+        private DashboardPage dashboardPage;
 
         [TestInitialize]
-        public void SetUpAndOpenBrowser()
+        public void SetUpLoginTest()
         {
-            //Init driver for Google Chrome
-            driver = new ChromeDriver();
-
-            //Set Implicit timeout
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-
             //Init page
             loginPage = new LoginPage(driver);
 
+            dashboardPage = new DashboardPage(driver);
         }
 
         [TestMethod("TC: Verify login successfully")]
         public void Verify_Positive_LoginTest()
         {
             driver.Manage().Window.Maximize();
-
             driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 
             //Type username "Admin" into Username field
-            loginPage.EnterUserName("Admin");
-
             //Type password "admin123" into Password field
-            loginPage.EnterPassword("admin123");
+            loginPage.EnterUserNameAndPassword("Admin","admin123");
 
             //Push Login button
             loginPage.ClickLoginButton();
@@ -45,19 +37,12 @@ namespace MyLeaveTest.Test
             Assert.IsTrue(driver.Url.Contains("dashboard/index"));
 
             //Verify new page contains expected text('Dashboard')
-            string loggedText = driver.FindElement(By.XPath("//h6[text()='Dashboard']")).Text;
-            StringAssert.Contains(loggedText, "Dashboard");
+            StringAssert.Contains(dashboardPage.GetContentDashboardHeader(), "Dashboard");
 
             //verify time at work chart display
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(50));
-            wait.Until(d => driver.FindElement(By.XPath("//div[@class='emp-attendance-chart']")).Displayed);
+            wait.Until(d => dashboardPage.IsChartTimeAtWorkDisplay());
 
-        }
-
-        [TestCleanup]
-        public void BrowserCleanup()
-        {
-            driver.Quit();
         }
     }
 }

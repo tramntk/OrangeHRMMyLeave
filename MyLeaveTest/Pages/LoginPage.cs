@@ -1,16 +1,11 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
 
-namespace MyLeaveTest.Pages.LoginPage
+namespace MyLeaveTest.Pages
 {
-    public class LoginPage
+    public class LoginPage: BasePage
     {
-        private IWebDriver driver;
-
-        public LoginPage(IWebDriver _driver)
+        public LoginPage(IWebDriver _driver) : base(_driver)
         {
-            driver = _driver;
         }
 
         //Page Elements
@@ -19,16 +14,23 @@ namespace MyLeaveTest.Pages.LoginPage
         private IWebElement inputPassword => driver.FindElement(By.XPath("//input[@name='password']"));
 
         private IWebElement loginBtn => driver.FindElement(By.XPath("//button[@type='submit']"));
-        
+
         //Methods interact
-        public void EnterUserName(string userName)
+
+        public void EnterUserName(string username)
         {
-            inputUsername.SendKeys(userName);
+            inputUsername.SendKeys(username);
         }
 
-        public void EnterPassword(string passWord)
+        public void EnterPassword(string password)
         {
-            inputPassword.SendKeys(passWord);
+            inputPassword.SendKeys(password);
+        }
+
+        public void EnterUserNameAndPassword(string username, string password)
+        {
+            inputUsername.SendKeys(username);
+            inputPassword.SendKeys(password);
         }
 
         public void ClickLoginButton()
