@@ -1,4 +1,5 @@
-﻿using MyLeaveTest.Pages;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MyLeaveTest.Pages;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -11,26 +12,22 @@ namespace MyLeaveTest.Test
     [TestClass]
     public class ViewLeaveListTest: BaseTest
     {
-        private LoginPage loginPage;
         private NavigationPage navigationPage;
         private ViewLeaveListPage viewLeaveListPage;
         private LoginTest loginTest;
 
         [TestInitialize]
-        public void InitViewLeaveList()
+        public override void SetUpPageObject()
         {
-            //In it
+            //Init View Leave List page
             loginTest = new LoginTest();
             navigationPage = new NavigationPage(driver);
             viewLeaveListPage = new ViewLeaveListPage(driver);
 
-            loginTest = new LoginTest();
-
-            loginTest.InitLogin();
+            loginTest.SetUpPageObject();
 
             loginTest.Verify_Positive_LoginTest();
         }
-
 
         [TestMethod("TC: Verify that can navigate to ViewLeaveListPage")]
         public void VerifyNavigateToViewLeaveListPage()

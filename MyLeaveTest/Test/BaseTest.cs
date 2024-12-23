@@ -1,31 +1,39 @@
-﻿using OpenQA.Selenium;
+﻿using Automation.Core.Helpers;
+using Automation.WebDriver;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System;
 
 namespace MyLeaveTest.Test
 {
     [TestClass]
     public class BaseTest
     {
-        protected static IWebDriver driver;
+        protected IWebDriver driver;
 
-        [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
-        public static void Initialize(TestContext test) 
+        public virtual void SetUpPageObject()
         {
-            //Init driver for Google Chrome
-            driver = new ChromeDriver();
+            //Empty
+        }
 
-            //Set Implicit timeout
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+        [TestInitialize]
+        public void SetUpAndOpenBrowser() 
+        {
+            //Init driver 
+            string browserType = ConfigurationHelpers.GetValue<string>("browser");
+            int timeout = ConfigurationHelpers.GetValue<int>("timeout");
+            driver = DriverFactory.InitBrowser(browserType, timeout);
 
-            driver.Manage().Window.Maximize();
+            //Navigate to Login Page
+            driver.Navigate().GoToUrl(ConfigurationHelpers.GetValue<string>("url"));
 
-            driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
-
+            SetUpPageObject();
         }
 
 
-        [ClassCleanup(InheritanceBehavior.BeforeEachDerivedClass)]
-        public static void BrowserCleanup()
+        [TestCleanup]
+        public void BrowserCleanup()
         {
             driver.Quit();
         }

@@ -2,6 +2,9 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using MyLeaveTest.Pages;
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Automation.Core.Helpers;
 
 namespace MyLeaveTest.Test
 {
@@ -12,9 +15,9 @@ namespace MyLeaveTest.Test
         private DashboardPage dashboardPage;
 
         [TestInitialize]
-        public void InitLogin()
+        public override void SetUpPageObject()
         {
-            //Init page
+            //Init Login page
             loginPage = new LoginPage(driver);
 
             dashboardPage = new DashboardPage(driver);
@@ -25,7 +28,9 @@ namespace MyLeaveTest.Test
         {
             //Type username "Admin" into Username field
             //Type password "admin123" into Password field
-            loginPage.EnterUserNameAndPassword("Admin","admin123");
+            string username = ConfigurationHelpers.GetValue<string>("username");
+            string password = ConfigurationHelpers.GetValue<string>("password");
+            loginPage.EnterUserNameAndPassword(username,password);
 
             //Push Login button
             loginPage.ClickLoginButton();

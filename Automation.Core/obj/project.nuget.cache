@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "QxlFLU7ALAE=",
+  "success": true,
+  "projectFilePath": "D:\\source\\git\\OrangeHRMMyLeave\\Automation.Core\\Automation.Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ngoth\\.nuget\\packages\\system.configuration.configurationmanager\\9.0.0\\system.configuration.configurationmanager.9.0.0.nupkg.sha512",
+    "C:\\Users\\ngoth\\.nuget\\packages\\system.diagnostics.eventlog\\9.0.0\\system.diagnostics.eventlog.9.0.0.nupkg.sha512",
+    "C:\\Users\\ngoth\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.0\\system.security.cryptography.protecteddata.9.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

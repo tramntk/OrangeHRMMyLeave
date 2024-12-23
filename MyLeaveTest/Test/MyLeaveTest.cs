@@ -12,17 +12,20 @@ namespace MyLeaveTest.Test
         private ViewLeaveListTest viewLeaveListTest;
         private ViewLeaveListPage viewLeaveListPage;
         private MyLeavePage myLeavePage;
-        private LoginTest loginTest;
+        private LoginPage loginPage;
 
         [TestInitialize]
-        public void InitMyLeavePage()
+        public override void SetUpPageObject()
         {
-            //Init
+            //Init My Leave page
             viewLeaveListTest = new ViewLeaveListTest();
             viewLeaveListPage = new ViewLeaveListPage(driver);
             myLeavePage = new MyLeavePage(driver);
+            loginPage = new LoginPage(driver);
 
-            viewLeaveListTest.InitViewLeaveList();
+            //Init View Leave List page
+            //viewLeaveListTest.SetUpPageObject();
+            
 
             //Click [Leave] item on [Left-Menu] (NavigationPage)
             viewLeaveListTest.VerifyNavigateToViewLeaveListPage();
