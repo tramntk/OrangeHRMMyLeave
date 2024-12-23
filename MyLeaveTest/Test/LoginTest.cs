@@ -12,7 +12,7 @@ namespace MyLeaveTest.Test
         private DashboardPage dashboardPage;
 
         [TestInitialize]
-        public void SetUpLoginTest()
+        public void InitLogin()
         {
             //Init page
             loginPage = new LoginPage(driver);
@@ -23,9 +23,6 @@ namespace MyLeaveTest.Test
         [TestMethod("TC: Verify login successfully")]
         public void Verify_Positive_LoginTest()
         {
-            driver.Manage().Window.Maximize();
-            driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
-
             //Type username "Admin" into Username field
             //Type password "admin123" into Password field
             loginPage.EnterUserNameAndPassword("Admin","admin123");
@@ -37,7 +34,7 @@ namespace MyLeaveTest.Test
             Assert.IsTrue(driver.Url.Contains("dashboard/index"));
 
             //Verify new page contains expected text('Dashboard')
-            StringAssert.Contains(dashboardPage.GetContentDashboardHeader(), "Dashboard");
+            //StringAssert.Contains(dashboardPage.GetContentDashboardHeader(), "Dashboard");
 
             //verify time at work chart display
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(50));

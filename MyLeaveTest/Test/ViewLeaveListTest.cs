@@ -1,4 +1,5 @@
 ﻿using MyLeaveTest.Pages;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,22 +17,24 @@ namespace MyLeaveTest.Test
         private LoginTest loginTest;
 
         [TestInitialize]
-        public void SetUpViewLeaveListTest()
+        public void InitViewLeaveList()
         {
             //In it
+            loginTest = new LoginTest();
             navigationPage = new NavigationPage(driver);
             viewLeaveListPage = new ViewLeaveListPage(driver);
+
             loginTest = new LoginTest();
-        
+
+            loginTest.InitLogin();
+
+            loginTest.Verify_Positive_LoginTest();
         }
+
 
         [TestMethod("TC: Verify that can navigate to ViewLeaveListPage")]
         public void VerifyNavigateToViewLeaveListPage()
         {
-            loginTest.SetUpLoginTest();
-
-            loginTest.Verify_Positive_LoginTest();
-
             //Click Leave option
             navigationPage.ClickLeaveOption();
 

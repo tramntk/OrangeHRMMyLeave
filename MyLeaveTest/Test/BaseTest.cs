@@ -9,7 +9,7 @@ namespace MyLeaveTest.Test
         protected static IWebDriver driver;
 
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
-        public static void SetUpAndOpenBrowser(TestContext testContext)
+        public static void Initialize(TestContext test) 
         {
             //Init driver for Google Chrome
             driver = new ChromeDriver();
@@ -17,7 +17,12 @@ namespace MyLeaveTest.Test
             //Set Implicit timeout
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
+            driver.Manage().Window.Maximize();
+
+            driver.Navigate().GoToUrl("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+
         }
+
 
         [ClassCleanup(InheritanceBehavior.BeforeEachDerivedClass)]
         public static void BrowserCleanup()
