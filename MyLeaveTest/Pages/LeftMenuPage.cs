@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Automation.WebDriver;
+using OpenQA.Selenium;
 using OpenQA.Selenium.DevTools.V129.DOM;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace MyLeaveTest.Pages
 {
-    public class NavigationPage : BasePage
+    public class LeftMenuPage : BasePage
     {
-        public NavigationPage(IWebDriver _driver) : base(_driver)
+        public LeftMenuPage(IWebDriver _driver) : base(_driver)
         {
         }
 
         //Web elements
-        private IWebElement viewLeaveModuleOption => driver.FindElement(By.XPath("//a[@href = '/web/index.php/leave/viewLeaveModule']"));
+        private IWebElement viewLeaveModuleOption => driver.FindElementByXPath("//a[@href = '/web/index.php/leave/viewLeaveModule']");
 
         //Methods
         public void ClickLeaveOption()

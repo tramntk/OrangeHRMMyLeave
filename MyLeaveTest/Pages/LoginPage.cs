@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using Automation.Core.Helpers;
+using Automation.WebDriver;
+using OpenQA.Selenium;
 
 namespace MyLeaveTest.Pages
 {
@@ -9,14 +11,31 @@ namespace MyLeaveTest.Pages
         }
 
         //Page Elements
-        private IWebElement inputUsername => driver.FindElement(By.XPath("//input[@name='username']"));
+        private IWebElement inputUsername => driver.FindElementByXPath("//input[@name='username']");
 
-        private IWebElement inputPassword => driver.FindElement(By.XPath("//input[@name='password']"));
+        private IWebElement inputPassword => driver.FindElementByXPath("//input[@name='password']");
 
-        private IWebElement loginBtn => driver.FindElement(By.XPath("//button[@type='submit']"));
+        private IWebElement loginBtn => driver.FindElementByXPath("//button[@type='submit']");
 
         //Methods interact
+        public bool IsLoginSuccess()
+        {
+            //Step 1 : Navigate to Login Page
+            driver.GoTo(ConfigurationHelpers.GetValue<string>("url"));
 
+            //Step 2:
+            //Type username "Admin" into Username field
+            //Type password "admin123" into Password field
+            string username = ConfigurationHelpers.GetValue<string>("username");
+            string password = ConfigurationHelpers.GetValue<string>("password");
+            EnterUserNameAndPassword(username, password);
+
+            //Step3: Push Login button
+            loginBtn.Click();
+
+            //Verify URL: contains "dashboard/index"
+            return IsHomePageURL();
+        }
         public void EnterUserName(string username)
         {
             inputUsername.SendKeys(username);
@@ -31,6 +50,12 @@ namespace MyLeaveTest.Pages
         {
             inputUsername.SendKeys(username);
             inputPassword.SendKeys(password);
+        }
+
+        public bool IsHomePageURL()
+        {
+            string homepageURL = driver.Url;
+            return homepageURL.Contains("dashboard/index");
         }
 
         public void ClickLoginButton()

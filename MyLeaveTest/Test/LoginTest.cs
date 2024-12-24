@@ -5,6 +5,7 @@ using MyLeaveTest.Pages;
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Automation.Core.Helpers;
+using Automation.WebDriver;
 
 namespace MyLeaveTest.Test
 {
@@ -13,37 +14,34 @@ namespace MyLeaveTest.Test
     {
         private LoginPage loginPage;
         private DashboardPage dashboardPage;
-
-        [TestInitialize]
-        public override void SetUpPageObject()
+        
+        [TestInitialize]        
+        public void InitLoginPage()
         {
             //Init Login page
             loginPage = new LoginPage(driver);
-
             dashboardPage = new DashboardPage(driver);
         }
-
+        
         [TestMethod("TC: Verify login successfully")]
-        public void Verify_Positive_LoginTest()
+        public void VerifyPositiveLoginTest()
         {
+            //Step 1 : Navigate to Login Page
+
+            //Step 2:
             //Type username "Admin" into Username field
             //Type password "admin123" into Password field
-            string username = ConfigurationHelpers.GetValue<string>("username");
-            string password = ConfigurationHelpers.GetValue<string>("password");
-            loginPage.EnterUserNameAndPassword(username,password);
 
-            //Push Login button
-            loginPage.ClickLoginButton();
+            //Step3: Push Login button
 
             //Verify new page URL contains "dashboard/index"
-            Assert.IsTrue(driver.Url.Contains("dashboard/index"));
+            loginPage.IsLoginSuccess();
 
             //Verify new page contains expected text('Dashboard')
-            //StringAssert.Contains(dashboardPage.GetContentDashboardHeader(), "Dashboard");
+            StringAssert.Contains(dashboardPage.GetContentDashboardHeader(), "Dashboard");
 
             //verify time at work chart display
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(50));
-            wait.Until(d => dashboardPage.IsChartTimeAtWorkDisplay());
+            driver.Wait(dashboardPage.ChartTimeAtWorkDisplay());
 
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Automation.WebDriver;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
@@ -13,25 +14,24 @@ namespace MyLeaveTest.Pages
         {
 
         }
-
         WebDriverWait wait => new WebDriverWait(driver, TimeSpan.FromSeconds(50));
 
         //Web elements
 
-        private IWebElement myLeaveHeader => driver.FindElement(By.XPath("//h5[text()='My Leave List']"));            
-        private IWebElement fromDate => driver.FindElement(By.XPath("//label[contains(text(),'From Date')]/parent::div/following-sibling::div//input"));
-        private IWebElement toDate => driver.FindElement(By.XPath("//label[text()='To Date']/parent::div/parent::div//input"));
-        private IWebElement leaveStatusDropdown => driver.FindElement(By.XPath("//label[text()='Show Leave with Status']/parent::div/parent::div//div[@class='oxd-select-text--after']"));
-        private IList<IWebElement> leaveStatusList => driver.FindElements(By.XPath("//span[@class='oxd-chip oxd-chip--default oxd-multiselect-chips-selected']"));
-        private IList<IWebElement> clearButtonOfLeaveStatusList => driver.FindElements(By.XPath("//i[@class='oxd-icon bi-x --clear']"));
-        private IWebElement leaveType => driver.FindElement(By.XPath("//label[text()='Leave Type']/parent::div/parent::div//div[@class='oxd-select-text--after']"));               
-        private IWebElement searchButton => driver.FindElement(By.XPath("//button[@type='submit']"));
-        private IWebElement resetButton => driver.FindElement(By.XPath("//button[@type='reset']"));
-        private IWebElement cancelButtonOnTopOfTable => driver.FindElement(By.XPath("//div[@class='actions']/button"));
-        private IWebElement resultTableHeader => driver.FindElement(By.XPath("//span[@class = 'oxd-text oxd-text--span']"));        
-        private IWebElement errMessForLeaveStatus => driver.FindElement(By.XPath("//label[text()='Show Leave with Status']/../following-sibling::span"));
-        private IWebElement errMessForToDate => driver.FindElement(By.XPath("//label[text() = 'To Date']/../following-sibling::span"));
-
+        private IWebElement myLeaveHeader => driver.FindElementByXPath("//h5[text()='My Leave List']");            
+        private IWebElement fromDate => driver.FindElementByXPath("//label[contains(text(),'From Date')]/parent::div/following-sibling::div//input");
+        private IWebElement toDate => driver.FindElementByXPath("//label[text()='To Date']/parent::div/parent::div//input");
+        private IWebElement leaveStatusDropdown => driver.FindElementByXPath("//label[text()='Show Leave with Status']/parent::div/parent::div//div[@class='oxd-select-text--after']");
+        private IList<IWebElement> leaveStatusList => driver.FindElementsByXPath("//span[@class='oxd-chip oxd-chip--default oxd-multiselect-chips-selected']");
+        private IList<IWebElement> clearButtonOfLeaveStatusList => driver.FindElementsByXPath("//i[@class='oxd-icon bi-x --clear']");
+        private IWebElement leaveType => driver.FindElementByXPath("//label[text()='Leave Type']/parent::div/parent::div//div[@class='oxd-select-text--after']");               
+        private IWebElement searchButton => driver.FindElementByXPath("//button[@type='submit']");
+        private IWebElement resetButton => driver.FindElementByXPath("//button[@type='reset']");
+        private IWebElement cancelButtonOnTopOfTable => driver.FindElementByXPath("//div[@class='actions']/button");
+        private IWebElement resultTableHeader => driver.FindElementByXPath("//span[@class = 'oxd-text oxd-text--span']");        
+        private IWebElement errMessForLeaveStatus => driver.FindElementByXPath("//label[text()='Show Leave with Status']/../following-sibling::span");
+        private IWebElement errMessForToDate => driver.FindElementByXPath("//label[text() = 'To Date']/../following-sibling::span");
+        private IWebElement toDateLabel => driver.FindElementByXPath("//label[text()='To Date']");
 
         //Methods
         public string GetMyLeaveListHeader()
@@ -41,12 +41,10 @@ namespace MyLeaveTest.Pages
 
         public bool IsAllFiltersHaveDefaultValue()
         {
-            bool result = false;
-
-            wait.Until(d => fromDate.Displayed);          
+            bool result = false;       
             
             //Verify default value of to Date (end date of the current year)
-
+            //TBD
 
             // Verify Leave Status: all values (5) are selected("Rejected, "Cancelled", "Pending Approval", "Scheduled","Taken")
             if (leaveStatusList.Count == 5)
@@ -74,8 +72,6 @@ namespace MyLeaveTest.Pages
         //Select a date
         public string SelectDate(int year, int day, int month)
         {
-
-
             int currentYear = ((int)DateTime.Now.Year);
             int currentMonth = DateTime.Now.Month;
             int currentDate = DateTime.Now.Date.Day;
@@ -109,9 +105,7 @@ namespace MyLeaveTest.Pages
 
             toDate.SendKeys(Keys.Enter);
 
-            Actions actions = new Actions(driver);
-
-            actions.Click(driver.FindElement(By.XPath("//label[text()='To Date']"))).Perform();
+            driver.DoClickAction(toDateLabel);
 
         }
 
@@ -121,23 +115,23 @@ namespace MyLeaveTest.Pages
             {
                 return true;
             }
-            else { return false; }
+            else 
+            { 
+                return false; 
+            }
         }
-
+       
         public void ClearAllValueForLeaveStatus()
         {
-            Actions actions = new Actions(driver);
-
-            for(int i = 4; i >= 0; i--)
+            for (int i = 4; i >= 0; i--)
             {
-                actions.Click(clearButtonOfLeaveStatusList[i]).Perform();
+                driver.DoClickAction(clearButtonOfLeaveStatusList[i]);
             }
         }
 
-        public bool IsRequireMessage()
+        public string GetRequireMessage()
         {
-            Assert.AreEqual("Required", errMessForLeaveStatus.Text);
-            return true;
+           return errMessForLeaveStatus.Text;            
         }
 
         public string GetContentErrorMessageWhenFromDateGreaterThanToDate()
@@ -157,7 +151,6 @@ namespace MyLeaveTest.Pages
                 IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
                 IWebElement toastElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[@id = 'oxd-toaster_1']")));
                 string toastText = (string)js.ExecuteScript("return arguments[0].innerText;", toastElement);
-                Console.WriteLine("Toast Message: " + toastText);
                 return toastText;
             }
             catch (NoSuchElementException)

@@ -12,25 +12,15 @@ namespace MyLeaveTest.Test
     {
         protected IWebDriver driver;
 
-        public virtual void SetUpPageObject()
-        {
-            //Empty
-        }
-
         [TestInitialize]
         public void SetUpAndOpenBrowser() 
         {
             //Init driver 
             string browserType = ConfigurationHelpers.GetValue<string>("browser");
             int timeout = ConfigurationHelpers.GetValue<int>("timeout");
+
             driver = DriverFactory.InitBrowser(browserType, timeout);
-
-            //Navigate to Login Page
-            driver.Navigate().GoToUrl(ConfigurationHelpers.GetValue<string>("url"));
-
-            SetUpPageObject();
         }
-
 
         [TestCleanup]
         public void BrowserCleanup()

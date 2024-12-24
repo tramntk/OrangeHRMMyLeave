@@ -211,6 +211,10 @@
               "target": "Package",
               "version": "[17.11.1, )"
             },
+            "NUnit.Allure": {
+              "target": "Package",
+              "version": "[1.2.1.1, )"
+            },
             "Selenium.Support": {
               "target": "Package",
               "version": "[4.27.0, )"

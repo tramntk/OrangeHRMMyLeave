@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Automation.WebDriver;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,9 @@ namespace MyLeaveTest.Pages
         }
 
         //Web Elements
-        private IWebElement myLeaveBtn => driver.FindElement(By.XPath("//a[text() = 'My Leave']"));
+        private IWebElement myLeaveBtn => driver.FindElementByXPath("//a[text() = 'My Leave']"));
 
-        private IWebElement leaveListHeader => driver.FindElement(By.XPath("//h5[text()='Leave List']"));
+        private IWebElement leaveListHeader => driver.FindElementByXPath("//h5[text()='Leave List']"));
 
         //Methods
         public void ClickMyLeaveButton()
