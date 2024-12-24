@@ -12,10 +12,12 @@ namespace MyLeaveTest.Test
     {
         protected IWebDriver driver;
 
+        /*--use virtual method
         public virtual void SetUpPageObject()
         {
             //Empty
         }
+        */
 
         [TestInitialize]
         public void SetUpAndOpenBrowser() 
@@ -25,10 +27,7 @@ namespace MyLeaveTest.Test
             int timeout = ConfigurationHelpers.GetValue<int>("timeout");
             driver = DriverFactory.InitBrowser(browserType, timeout);
 
-            //Navigate to Login Page
-            driver.Navigate().GoToUrl(ConfigurationHelpers.GetValue<string>("url"));
-
-            SetUpPageObject();
+            //SetUpPageObject();
         }
 
 

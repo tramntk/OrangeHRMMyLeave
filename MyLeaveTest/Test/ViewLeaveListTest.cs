@@ -15,23 +15,30 @@ namespace MyLeaveTest.Test
         private NavigationPage navigationPage;
         private ViewLeaveListPage viewLeaveListPage;
         private LoginTest loginTest;
+        //private LoginPage loginPage;
+        //private DashboardPage dashboardPage;
 
         [TestInitialize]
-        public override void SetUpPageObject()
+        public void InitViewLeaveListPage()
         {
             //Init View Leave List page
-            loginTest = new LoginTest();
             navigationPage = new NavigationPage(driver);
             viewLeaveListPage = new ViewLeaveListPage(driver);
+            loginTest = new LoginTest();
 
-            loginTest.SetUpPageObject();
+            //loginPage = new LoginPage(driver);
+            //dashboardPage = new DashboardPage(driver);
+            loginTest.InitLoginPage();
 
             loginTest.Verify_Positive_LoginTest();
+
         }
 
         [TestMethod("TC: Verify that can navigate to ViewLeaveListPage")]
         public void VerifyNavigateToViewLeaveListPage()
         {
+
+
             //Click Leave option
             navigationPage.ClickLeaveOption();
 

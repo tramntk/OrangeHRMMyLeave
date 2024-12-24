@@ -14,7 +14,7 @@ namespace MyLeaveTest.Test
         private LoginPage loginPage;
         private DashboardPage dashboardPage;
 
-        [TestInitialize]
+        /* -- Use override
         public override void SetUpPageObject()
         {
             //Init Login page
@@ -22,10 +22,21 @@ namespace MyLeaveTest.Test
 
             dashboardPage = new DashboardPage(driver);
         }
+        */
+        [TestInitialize]        
+        public void InitLoginPage()
+        {
+            //Init Login page
+            loginPage = new LoginPage(driver);
+            dashboardPage = new DashboardPage(driver);
+        }
 
         [TestMethod("TC: Verify login successfully")]
         public void Verify_Positive_LoginTest()
         {
+            //Navigate to Login Page
+            driver.Navigate().GoToUrl(ConfigurationHelpers.GetValue<string>("url"));
+
             //Type username "Admin" into Username field
             //Type password "admin123" into Password field
             string username = ConfigurationHelpers.GetValue<string>("username");
