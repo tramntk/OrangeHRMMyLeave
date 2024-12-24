@@ -15,7 +15,8 @@ namespace MyLeaveTest.Test
         private LeftMenuPage navigationPage;
         private ViewLeaveListPage viewLeaveListPage;
         private LoginPage loginPage;
-        
+        private LoginTest loginTest;
+
         [TestInitialize]
         public void InitViewLeaveListPage()
         {
@@ -26,7 +27,7 @@ namespace MyLeaveTest.Test
 
             //Login successfully
             loginPage.IsLoginSuccess();
-        }        
+        }       
 
         [TestMethod("TC: Verify that can navigate to ViewLeaveListPage")]
         public void VerifyNavigateToViewLeaveListPage()

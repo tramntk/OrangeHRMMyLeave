@@ -14,7 +14,7 @@ namespace MyLeaveTest.Test
     {
         private LoginPage loginPage;
         private DashboardPage dashboardPage;
-        
+
         [TestInitialize]        
         public void InitLoginPage()
         {
@@ -22,7 +22,7 @@ namespace MyLeaveTest.Test
             loginPage = new LoginPage(driver);
             dashboardPage = new DashboardPage(driver);
         }
-        
+
         [TestMethod("TC: Verify login successfully")]
         public void VerifyPositiveLoginTest()
         {

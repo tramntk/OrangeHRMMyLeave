@@ -24,7 +24,7 @@ namespace MyLeaveTest.Test
             leftMenu = new LeftMenuPage(driver);
 
             //Go to login page
-            loginPage.IsLoginSuccess();            
+            loginPage.IsLoginSuccess(); 
 
             //Click [Leave] item on [Left-Menu] (NavigationPage)
             leftMenu.ClickLeaveOption();

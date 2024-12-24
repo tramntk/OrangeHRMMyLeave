@@ -11,7 +11,6 @@ namespace MyLeaveTest.Test
     public class BaseTest
     {
         protected IWebDriver driver;
-
         [TestInitialize]
         public void SetUpAndOpenBrowser() 
         {

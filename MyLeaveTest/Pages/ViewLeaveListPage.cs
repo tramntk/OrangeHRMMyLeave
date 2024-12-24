@@ -15,9 +15,8 @@ namespace MyLeaveTest.Pages
         }
 
         //Web Elements
-        private IWebElement myLeaveBtn => driver.FindElementByXPath("//a[text() = 'My Leave']"));
-
-        private IWebElement leaveListHeader => driver.FindElementByXPath("//h5[text()='Leave List']"));
+        private IWebElement myLeaveBtn => driver.FindElementByXPath("//a[text() = 'My Leave']");
+        private IWebElement leaveListHeader => driver.FindElementByXPath("//h5[text()='Leave List']");
 
         //Methods
         public void ClickMyLeaveButton()
