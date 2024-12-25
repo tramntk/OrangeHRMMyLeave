@@ -23,5 +23,11 @@ namespace Automation.WebDriver
         {
             return driver.FindElements(By.XPath(xpath));
         }
+
+        public static string LeftMenuXPath(this IWebDriver driver, string elementName)
+        {
+            return $"//span[text() = '{elementName}']";
+        }
+
     }
 }

@@ -11,7 +11,7 @@ namespace MyLeaveTest.Test
     {
         private ViewLeaveListPage viewLeaveListPage;
         private MyLeavePage myLeavePage;
-        private LeftMenuPage leftMenu;
+        private LeftMenuPage leftMenuPage;
         private LoginPage loginPage;
 
         [TestInitialize]      
@@ -21,13 +21,13 @@ namespace MyLeaveTest.Test
             viewLeaveListPage = new ViewLeaveListPage(driver);
             myLeavePage = new MyLeavePage(driver);
             loginPage = new LoginPage(driver);
-            leftMenu = new LeftMenuPage(driver);
+            leftMenuPage = new LeftMenuPage(driver);
 
             //Go to login page
             loginPage.IsLoginSuccess(); 
 
             //Click [Leave] item on [Left-Menu] (NavigationPage)
-            leftMenu.ClickLeaveOption();
+            leftMenuPage.ClickLeaveOption();
 
             //Click[My Leave] button on [Top Menu] (ViewLeaveListPage)
             viewLeaveListPage.ClickMyLeaveButton();

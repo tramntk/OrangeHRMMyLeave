@@ -16,12 +16,24 @@ namespace MyLeaveTest.Pages
         }
 
         //Web elements
-        private IWebElement viewLeaveModuleOption => driver.FindElementByXPath("//a[@href = '/web/index.php/leave/viewLeaveModule']");
+        private IWebElement adminOption => driver.FindElementByXPath(driver.LeftMenuXPath("Admin"));
+        private IWebElement pimOption => driver.FindElementByXPath(driver.LeftMenuXPath("PIM"));
+        private IWebElement leaveOption => driver.FindElementByXPath(driver.LeftMenuXPath("Leave"));
 
         //Methods
+        public void ClickAdminOption()
+        {
+            adminOption.Click();
+        }
+
+        public void ClickPIMOption()
+        {
+            pimOption.Click();
+        }
+
         public void ClickLeaveOption()
         {
-            viewLeaveModuleOption.Click();
+            leaveOption.Click();
         }
     }
 }

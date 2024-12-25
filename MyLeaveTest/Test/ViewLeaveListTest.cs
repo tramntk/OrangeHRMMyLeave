@@ -12,16 +12,15 @@ namespace MyLeaveTest.Test
     [TestClass]
     public class ViewLeaveListTest: BaseTest
     {
-        private LeftMenuPage navigationPage;
+        private LeftMenuPage leftMenuPage;
         private ViewLeaveListPage viewLeaveListPage;
         private LoginPage loginPage;
-        private LoginTest loginTest;
 
         [TestInitialize]
         public void InitViewLeaveListPage()
         {
             //Init View Leave List page
-            navigationPage = new LeftMenuPage(driver);
+            leftMenuPage = new LeftMenuPage(driver);
             viewLeaveListPage = new ViewLeaveListPage(driver);
             loginPage = new LoginPage(driver);
 
@@ -33,7 +32,7 @@ namespace MyLeaveTest.Test
         public void VerifyNavigateToViewLeaveListPage()
         {
             //Step 1: Click Leave option
-            navigationPage.ClickLeaveOption();
+            leftMenuPage.ClickLeaveOption();
 
             //Verify View Leave List page URL contains "leave/viewLeaveList"
             string expectURL = driver.Url;

@@ -1,6 +1,7 @@
 ﻿using Automation.Core.Helpers;
 using Automation.WebDriver;
 using OpenQA.Selenium;
+using System.Security.AccessControl;
 
 namespace MyLeaveTest.Pages
 {
@@ -12,15 +13,15 @@ namespace MyLeaveTest.Pages
 
         //Page Elements
         private IWebElement inputUsername => driver.FindElementByXPath("//input[@name='username']");
-
         private IWebElement inputPassword => driver.FindElementByXPath("//input[@name='password']");
-
         private IWebElement loginBtn => driver.FindElementByXPath("//button[@type='submit']");
+        private IWebElement errorMess => driver.FindElementByXPath("//p[text() = 'Invalid credentials']");
+        private IWebElement errorIcon => driver.FindElementByXPath("//p[text() = 'Invalid credentials']/preceding-sibling::i");
 
         //Methods interact
         public bool IsLoginSuccess()
         {
-            //Step 1 : Navigate to Login Page
+            //Step 1 : Navigate to Login Page            
             driver.GoTo(ConfigurationHelpers.GetValue<string>("url"));
 
             //Step 2:
@@ -58,9 +59,25 @@ namespace MyLeaveTest.Pages
             return homepageURL.Contains("dashboard/index");
         }
 
+        public bool IsLoginPageURL()
+        {
+            string loginURL = driver.Url;
+            return loginURL.Contains("auth/login");
+        }
+
         public void ClickLoginButton()
         {
             loginBtn.Click();
+        }
+
+        public string GetErrorMessageContent()
+        {
+            return errorMess.Text;
+        }
+
+        public bool IsErrorIconDisplay()
+        {
+            return driver.Wait(errorIcon);
         }
     }
 }
