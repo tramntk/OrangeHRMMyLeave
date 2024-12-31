@@ -1,10 +1,5 @@
 ﻿using Automation.WebDriver;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyLeaveTest.Pages
 {
@@ -14,14 +9,14 @@ namespace MyLeaveTest.Pages
         {
         }
 
-        //Web elements
+        // Web elements
         private IWebElement chartTimeAtWork => driver.FindElementByXPath("//div[@class='emp-attendance-chart']");
         private IWebElement dashboardHeader => driver.FindElementByXPath("//h6[text()='Dashboard']");
 
-        //Methods interact
-        public IWebElement ChartTimeAtWorkDisplay()
+        // Methods interact
+        public bool IsChartTimeAtWorkDisplay()
         {
-            return chartTimeAtWork;
+            return driver.WaitToDisplay(chartTimeAtWork);
         }
 
         public string GetContentDashboardHeader()

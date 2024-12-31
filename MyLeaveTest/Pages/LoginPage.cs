@@ -11,32 +11,30 @@ namespace MyLeaveTest.Pages
         {
         }
 
-        //Page Elements
+        // Page Elements
         private IWebElement inputUsername => driver.FindElementByXPath("//input[@name='username']");
         private IWebElement inputPassword => driver.FindElementByXPath("//input[@name='password']");
         private IWebElement loginBtn => driver.FindElementByXPath("//button[@type='submit']");
         private IWebElement errorMess => driver.FindElementByXPath("//p[text() = 'Invalid credentials']");
         private IWebElement errorIcon => driver.FindElementByXPath("//p[text() = 'Invalid credentials']/preceding-sibling::i");
 
-        //Methods interact
-        public bool IsLoginSuccess()
-        {
-            //Step 1 : Navigate to Login Page            
-            driver.GoTo(ConfigurationHelpers.GetValue<string>("url"));
+        // Methods interact
 
-            //Step 2:
-            //Type username "Admin" into Username field
-            //Type password "admin123" into Password field
+        public bool IsLoginSuccessfully()
+        {
+            NavigateToLoginPage();
             string username = ConfigurationHelpers.GetValue<string>("username");
             string password = ConfigurationHelpers.GetValue<string>("password");
             EnterUserNameAndPassword(username, password);
-
-            //Step3: Push Login button
-            loginBtn.Click();
-
-            //Verify URL: contains "dashboard/index"
+            ClickLoginButton();
             return IsHomePageURL();
         }
+
+        public void NavigateToLoginPage()
+        {
+            driver.GoTo(ConfigurationHelpers.GetValue<string>("url"));
+        }
+
         public void EnterUserName(string username)
         {
             inputUsername.SendKeys(username);
@@ -77,7 +75,7 @@ namespace MyLeaveTest.Pages
 
         public bool IsErrorIconDisplay()
         {
-            return driver.Wait(errorIcon);
+            return driver.WaitToDisplay(errorIcon);
         }
     }
 }

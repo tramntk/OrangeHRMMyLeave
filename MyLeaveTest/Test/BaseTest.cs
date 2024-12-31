@@ -11,28 +11,18 @@ namespace MyLeaveTest.Test
         protected IWebDriver driver;
         protected static ReportHelpers reportHelpers;
         public TestContext TestContext { get; set; }
-
-        /*
-        [AssemblyInitialize]
-        public static void InitializeExtentReport(TestContext context)
-        {
-            //Init report
-            reportHelpers = new ReportHelpers();
-        }
-        */
         
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
         public static void SetupExtentReport(TestContext context)
         {
-            //Init report
+            // Init report
             reportHelpers = new ReportHelpers();
-        }       
-
+        }     
 
         [TestInitialize]
         public void SetUpAndOpenBrowser()
         {
-            //Init driver 
+            // Init driver 
             string browserType = ConfigurationHelpers.GetValue<string>("browser");
             int timeout = ConfigurationHelpers.GetValue<int>("timeout");
 

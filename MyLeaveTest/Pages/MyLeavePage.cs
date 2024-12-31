@@ -1,10 +1,5 @@
 ﻿using Automation.WebDriver;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
-using System;
-using System.Collections.Generic;
 
 namespace MyLeaveTest.Pages
 {
@@ -14,76 +9,123 @@ namespace MyLeaveTest.Pages
         {
 
         }
-        WebDriverWait wait => new WebDriverWait(driver, TimeSpan.FromSeconds(50));
 
-        //Web elements
+        private Dictionary<(int, int), string> tableDictionary;
 
+        // Web elements
+
+        // Header
         private IWebElement myLeaveHeader => driver.FindElementByXPath("//h5[text()='My Leave List']");            
+        
+        // From Date
         private IWebElement fromDate => driver.FindElementByXPath("//label[contains(text(),'From Date')]/parent::div/following-sibling::div//input");
-        private IWebElement toDate => driver.FindElementByXPath("//label[text()='To Date']/parent::div/parent::div//input");
-        private IWebElement leaveStatusDropdown => driver.FindElementByXPath("//label[text()='Show Leave with Status']/parent::div/parent::div//div[@class='oxd-select-text--after']");
+        
+        // To Date
+        private IWebElement toDate => driver.FindElementByXPath("//label[contains(text(),'To Date')]/parent::div/following-sibling::div//input");
+        
+        // Leave Status
         private IList<IWebElement> leaveStatusList => driver.FindElementsByXPath("//span[@class='oxd-chip oxd-chip--default oxd-multiselect-chips-selected']");
         private IList<IWebElement> clearButtonOfLeaveStatusList => driver.FindElementsByXPath("//i[@class='oxd-icon bi-x --clear']");
-        private IWebElement leaveType => driver.FindElementByXPath("//label[text()='Leave Type']/parent::div/parent::div//div[@class='oxd-select-text--after']");               
+        
+        // Leave Type
+        private IWebElement leaveType => driver.FindElementByXPath("//label[text()='Leave Type']/parent::div/following-sibling::div//div[@class='oxd-select-text-input']");
+        private IList<IWebElement> leaveTypeOption => driver.FindElementsByXPath("//div[@class = 'oxd-select-option']");
+        
+        // Buttons
         private IWebElement searchButton => driver.FindElementByXPath("//button[@type='submit']");
         private IWebElement resetButton => driver.FindElementByXPath("//button[@type='reset']");
         private IWebElement cancelButtonOnTopOfTable => driver.FindElementByXPath("//div[@class='actions']/button");
-        private IWebElement resultTableHeader => driver.FindElementByXPath("//span[@class = 'oxd-text oxd-text--span']");        
+        
+        // Labels
         private IWebElement errMessForLeaveStatus => driver.FindElementByXPath("//label[text()='Show Leave with Status']/../following-sibling::span");
         private IWebElement errMessForToDate => driver.FindElementByXPath("//label[text() = 'To Date']/../following-sibling::span");
         private IWebElement toDateLabel => driver.FindElementByXPath("//label[text()='To Date']");
 
-        //Methods
+        // Result table
+        private IWebElement resultTableHeader => driver.FindElementByXPath("//span[@class = 'oxd-text oxd-text--span']");
+        
+        // row list
+        private IList<IWebElement> rows => driver.FindElementsByXPath("//div[@role = 'row']");
+        // cell list
+        private IList<IWebElement> cells => driver.FindElementsByXPath("//div[@role = 'cell']");
+
+
+        // Methods
+
+        // Get search result:
+        public Dictionary<(int,int), string> GetMyLeaveList()
+        {
+            // Convert table to Dictionary
+            tableDictionary = new Dictionary<(int, int), string>();
+
+            for (int i = 0; i < rows.Count; i++)
+            {
+                var cells = rows[i].FindElements(By.XPath(".//div[@role = 'cell']"));
+
+                for (int j = 0; j < cells.Count; j++)
+                {
+                    tableDictionary[(i, j + 1)] = cells[j].Text;
+                }
+            }
+
+            return tableDictionary;
+        }
+
         public string GetMyLeaveListHeader()
         {
             return myLeaveHeader.Text;
         }
 
-        public bool IsAllFiltersHaveDefaultValue()
+        public bool IsDefaultValueOfLeaveStatus()
         {
-            bool result = false;       
-            
-            //Verify default value of to Date (end date of the current year)
-            //TBD
+            List<string> expectStatusList = new List<string> 
+                { "Rejected", "Cancelled", "Pending Approval", "Scheduled", "Taken" };
 
-            // Verify Leave Status: all values (5) are selected("Rejected, "Cancelled", "Pending Approval", "Scheduled","Taken")
+            List<string> actualStatusList = new List<string>();
+
             if (leaveStatusList.Count == 5)
-            {                
-                result = true;
+            {
+                for (int i = 0; i < leaveStatusList.Count; i++)
+                {
+                    actualStatusList.Add(leaveStatusList[i].Text);
+                }
+
+                return expectStatusList.ToHashSet().SetEquals(actualStatusList);
             }
             else
             {
-                result = false;
+                return false;
             }
+            
+        }
 
+        public bool IsDefaultValueOfLeaveType()
+        {            
             // Verify Leave Type: there is no value selected
             if(leaveType.Text == "-- Select --")
             {
-                result = true;
+                return true;
             }
             else
             {
-                result = false;
+                return false;
             }
-
-            return result;
         }
 
-        //Select a date
-        public string SelectDate(int year, int day, int month)
+        // Select a date
+        public string SelectDate(int day)
         {
-            int currentYear = ((int)DateTime.Now.Year);
-            int currentMonth = DateTime.Now.Month;
-            int currentDate = DateTime.Now.Date.Day;
+            DateTime today = DateTime.Now;
+            DateTime newDate = today.AddDays(day);
 
-            string selectedDate = String.Concat((currentYear + year).ToString(), '-', (currentDate+ day).ToString(), '-', (currentMonth + month).ToString());
+            string selectedDate = String.Concat((newDate.Year).ToString(), '-', (newDate.Day).ToString(), '-', (newDate.Month).ToString());
 
             return selectedDate;
         }
 
         public void InputFromDateToDate(string fdate, string tdate)
         {
-            //input from date
+            // Input fromdate
             fromDate.Click();
 
             fromDate.SendKeys(Keys.Control + 'a');
@@ -94,19 +136,26 @@ namespace MyLeaveTest.Pages
 
             fromDate.SendKeys(Keys.Enter);
 
-            //input to date
+            // Input todate
+
             toDate.Click();
 
             toDate.SendKeys(Keys.Control + 'a');
 
             toDate.SendKeys(Keys.Delete);
 
-            toDate.SendKeys(tdate);
+            toDate.SendKeys(fdate);
 
             toDate.SendKeys(Keys.Enter);
-
+            
             driver.DoClickAction(toDateLabel);
 
+        }
+
+        public void SelectLeaveTypeValue()
+        {
+            driver.DoClickAction(leaveType);
+            leaveTypeOption.First().Click();
         }
 
         public bool IsNoRecordsFoundHeader()
@@ -144,12 +193,17 @@ namespace MyLeaveTest.Pages
             searchButton.Click();
         }
 
+        public void ClickResetButton()
+        {
+            resetButton.Click();
+        }
+
         public string ToastMessageContent()
         {    
             try
             {
                 IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-                IWebElement toastElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[@id = 'oxd-toaster_1']")));
+                IWebElement toastElement = driver.WaitElementIsVisible("//div[@id = 'oxd-toaster_1']");
                 string toastText = (string)js.ExecuteScript("return arguments[0].innerText;", toastElement);
                 return toastText;
             }

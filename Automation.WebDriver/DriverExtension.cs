@@ -1,20 +1,23 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SeleniumExtras.WaitHelpers;
 
 namespace Automation.WebDriver
 {
     public static class DriverExtension
     {
-        public static bool Wait(this IWebDriver driver, IWebElement element)
+        private static WebDriverWait wait;
+        public static bool WaitToDisplay(this IWebDriver driver, IWebElement element)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(50));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(50));
             return wait.Until(d => element.Displayed);
+        }
+
+        public static IWebElement WaitElementIsVisible(this IWebDriver driver, string xpath)
+        {
+            IWebElement element = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(xpath)));
+            return element;
         }
 
         public static void DoClickAction(this IWebDriver driver, IWebElement element)
@@ -22,11 +25,11 @@ namespace Automation.WebDriver
             Actions actions = new Actions(driver);
             actions.Click(element).Perform();
         }
+
         public static void DoHoverAction(this IWebDriver driver, IWebElement element)
         {
             Actions actions = new Actions(driver);
             actions.MoveToElement(element).Perform();
         }
-
     }
 }

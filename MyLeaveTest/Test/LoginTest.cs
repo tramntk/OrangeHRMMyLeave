@@ -18,7 +18,7 @@ namespace MyLeaveTest.Test
         [TestInitialize]        
         public void InitLoginPage()
         {
-            //Init Login page
+            // Init Login page
             loginPage = new LoginPage(driver);
             dashboardPage = new DashboardPage(driver);
         }
@@ -26,62 +26,62 @@ namespace MyLeaveTest.Test
         [TestMethod("TC001: Verify login successfully")]
         public void VerifyPositiveLoginTest()
         {
-            //Step 1 : Navigate to Login Page            
-            driver.GoTo(ConfigurationHelpers.GetValue<string>("url"));
+            // Step 1 : Navigate to Login Page            
+            loginPage.NavigateToLoginPage();
 
-            //Step 2:
-            //Type username "Admin" into Username field
-            //Type password "admin123" into Password field            
+            // Step 2:
+            // Type username "Admin" into Username field
+            // Type password "admin123" into Password field            
             string username = ConfigurationHelpers.GetValue<string>("username");
             string password = ConfigurationHelpers.GetValue<string>("password");
-
-            //Log Info
-            reportHelpers.LogMessage("Info", "Login with user: " + username);
-            reportHelpers.LogMessage("Info", "Login with password: " + password);
-
             loginPage.EnterUserNameAndPassword(username, password);
 
-            //Step3: Push Login button
+            // Log Info
+            reportHelpers.LogMessage("Info", "Login with user: " + username);
+            reportHelpers.LogMessage("Info", "Login with password: " + password);            
+
+            // Step 3: Click Login button
             loginPage.ClickLoginButton();
 
-            //Verify URL: contains "dashboard/index"
+            // Verify URL: contains "dashboard/index"
             Assert.IsTrue(loginPage.IsHomePageURL());
 
-            //Verify new page contains expected text('Dashboard')
+            // Verify new page contains expected text('Dashboard')
             StringAssert.Contains(dashboardPage.GetContentDashboardHeader(), "Dashboard");
 
-            //verify time at work chart display
-            driver.Wait(dashboardPage.ChartTimeAtWorkDisplay());
+            // Verify time at work chart display
+            dashboardPage.IsChartTimeAtWorkDisplay();
 
-            //Log Pass
+            // Log Pass
             reportHelpers.LogMessage("Pass", "Login with valid user: Pass");
-
         }
 
         [TestMethod("TC002: Verify login fail with invalid username")]
         public void VerifyNegativeLoginTestInvalidUserName()
         {
-            //Step 1 : Navigate to Login Page            
-            driver.GoTo(ConfigurationHelpers.GetValue<string>("url"));
+            // Step 1 : Navigate to Login Page            
+            loginPage.NavigateToLoginPage();
 
+            // Step 2:
+            // Input invalid username
+            // Input valid password
             string username = "Admin" + new Random().Next(100, 1000);
-
-            //Log Info
-            reportHelpers.LogMessage("Info", "Login with user: " + username);
             string password = ConfigurationHelpers.GetValue<string>("password");
+            loginPage.EnterUserNameAndPassword(username, password);
 
-            loginPage.EnterUserNameAndPassword("Admin123", "admin123");
-
-            //Step2: Push Login button
+            // Log Info
+            reportHelpers.LogMessage("Info", "Login with user: " + username);         
+                        
+            // Step 3: Click Login button
             loginPage.ClickLoginButton();
 
-            //Verify URL: contains "auth/login"
+            // Verify URL: contains "auth/login"
             Assert.IsTrue(loginPage.IsLoginPageURL());
 
-            //Verify error message: "Invalid credentials" is displayed
+            // Verify error message: "Invalid credentials" is displayed
             Assert.AreEqual("Invalid credentials", loginPage.GetErrorMessageContent());
 
-            //Verify has error icon
+            // Verify has error icon
             Assert.IsTrue(loginPage.IsErrorIconDisplay());
 
             //Log Pass
