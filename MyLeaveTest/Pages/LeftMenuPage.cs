@@ -35,5 +35,23 @@ namespace MyLeaveTest.Pages
         {
             leaveOption.Click();
         }
+
+        public bool IsAdminPageURL()
+        {
+            string adminPageURL = driver.Url;
+            return adminPageURL.Contains("admin/viewSystemUsers");
+        }
+
+        public bool IsPIMURL()
+        {
+            string pimURL = driver.Url;
+            return pimURL.Contains("pim/viewEmployeeList");
+        }
+
+        public bool IsLeaveListURL()
+        {
+            string leaveListURL = driver.Url;
+            return leaveListURL.Contains("leave/viewLeaveList");
+        }
     }
 }

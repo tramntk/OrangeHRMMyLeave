@@ -1,10 +1,5 @@
 ﻿using Automation.WebDriver;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyLeaveTest.Pages
 {
@@ -14,14 +9,20 @@ namespace MyLeaveTest.Pages
         {
         }
 
-        //Web Elements
+        // Web Elements
         private IWebElement myLeaveBtn => driver.FindElementByXPath("//a[text() = 'My Leave']");
+        private IWebElement applyBtn => driver.FindElementByXPath("//a[text() = 'Apply']");
         private IWebElement leaveListHeader => driver.FindElementByXPath("//h5[text()='Leave List']");
-
-        //Methods
+        
+        // Methods
         public void ClickMyLeaveButton()
         {
             myLeaveBtn.Click();
+        }
+
+        public void ClickApplyButton()
+        {
+            applyBtn.Click();
         }
 
         public string GetLeaveListHeader()
