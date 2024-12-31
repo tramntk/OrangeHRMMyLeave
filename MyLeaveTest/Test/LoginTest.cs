@@ -86,7 +86,6 @@ namespace MyLeaveTest.Test
 
             //Log Pass
             reportHelpers.LogMessage("Pass", "Login with invalid username: Pass");
-
         }
     }
 }

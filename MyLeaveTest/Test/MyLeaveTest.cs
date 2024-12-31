@@ -25,16 +25,10 @@ namespace MyLeaveTest.Test
             leftMenuPage = new LeftMenuPage(driver);
             applyPage = new ApplyPage(driver);
 
-            // Go to login page and login successfully
-            loginPage.IsLoginSuccessfully(); 
-
-            // Click [Leave] item on [Left-Menu] (NavigationPage)
-            leftMenuPage.ClickLeaveOption();
-
-            // Click [My Leave] button on [Top Menu] (ViewLeaveListPage)
-            viewLeaveListPage.ClickMyLeaveButton();
+            // Precondion execution
+            Precondtion();
         }
-
+        
         [TestMethod("TC001: Verify default value of filters")]
         public void VerifyDefaultValuesOfFilters()
         {
@@ -102,7 +96,7 @@ namespace MyLeaveTest.Test
         {
             // Step 1: Not select any value of [Leave Status] (Click [x] icon of all values)
             myLeavePage.ClearAllValueForLeaveStatus();
-
+           
             // Step 2: Select a value in [Leave Type]
             myLeavePage.SelectLeaveTypeValue();
 
@@ -120,10 +114,8 @@ namespace MyLeaveTest.Test
         [TestMethod("TC006: Verify Search Result")]
         public void VerifySearchResult()
         {
-            // Create test data
-            // Click [Apply] button on [Top Menu] (ViewLeaveListPage)
-            viewLeaveListPage.ClickApplyButton();
-            applyPage.CreateApply();
+            // Create Search data
+            PrecondtionForSearch();
 
             // Step 1: Navigate to MyLeave Page
             viewLeaveListPage.ClickMyLeaveButton();
@@ -136,10 +128,25 @@ namespace MyLeaveTest.Test
             Assert.AreNotEqual(0, resultCount);                      
         }
 
-        [TestCleanup]
-        public void CloseBrowser()
+        public void Precondtion()
         {
-            driver.Quit();
+            // Go to login page and login successfully
+            loginPage.IsLoginSuccessfully();
+
+            // Click [Leave] item on [Left-Menu] (NavigationPage)
+            leftMenuPage.ClickLeaveOption();
+
+            // Click [My Leave] button on [Top Menu] (ViewLeaveListPage)
+            viewLeaveListPage.ClickMyLeaveButton();
+        }
+
+        public void PrecondtionForSearch()
+        {
+            // Click [Apply] button on [Top Menu] (ViewLeaveListPage)
+            viewLeaveListPage.ClickApplyButton();
+
+            // Create test data
+            applyPage.CreateApply();
         }
     }
 }

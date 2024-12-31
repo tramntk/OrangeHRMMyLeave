@@ -27,7 +27,7 @@ namespace MyLeaveTest.Test
             int timeout = ConfigurationHelpers.GetValue<int>("timeout");
 
             driver = DriverFactory.InitBrowser(browserType, timeout);
-
+            
             var testMethod = TestContext?.TestName;
 
             var method = GetType().GetMethods()
@@ -44,7 +44,7 @@ namespace MyLeaveTest.Test
 
         [TestCleanup]
         public void BrowserCleanup()
-        {
+        {            
             if (TestContext.CurrentTestOutcome == UnitTestOutcome.Failed)
             {
                 string base64 = ((ITakesScreenshot)driver).GetScreenshot().AsBase64EncodedString;
@@ -57,6 +57,5 @@ namespace MyLeaveTest.Test
             reportHelpers.ExportReport();
             driver.Quit();
         }
-
     }
 }
