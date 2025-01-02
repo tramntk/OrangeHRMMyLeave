@@ -4,7 +4,8 @@ trigger:
       - main
 
 pool:
-  vmImage: 'mypool'
+  name: 'mypool'
+  demands: agent.name -equals desktopAgent
 
 steps:
 - task: UseDotNet@2
@@ -13,7 +14,7 @@ steps:
     version: '6.x'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
-- script: dotnet build --configuration Release
+- script: dotnet build --configuration Debug
   displayName: 'Build Solution'
 
 - task: DotNetCoreCLI@2
