@@ -1,26 +1,27 @@
-trigger:
-  branches:
-    include:
-      - main
 
 pool:
-  name: 'mypool'
+  name: 'mypool'  # Use your defined agent pool
   demands: agent.name -equals desktopAgent
-
+variables:
+  buildConfiguration: 'Release'  # Set build configuration
+  solution: '**/*.sln'  # Solution file location
+ 
 steps:
+# Use the latest .NET SDK
 - task: UseDotNet@2
   inputs:
-    packageType: sdk
-    version: '6.x'
+    packageType: 'sdk'
+    version: '6.x'  # Adjust for your .NET SDK version
     installationPath: $(Agent.ToolsDirectory)/dotnet
-
-- script: dotnet build --configuration Debug
+ 
+# Restore dependencies
+- script: dotnet restore $(solution)
+  displayName: 'Restore Dependencies'
+ 
+# Build the solution
+- script: dotnet build $(solution) --configuration $(buildConfiguration) --no-restore
   displayName: 'Build Solution'
-
-- task: RunTest
-  displayName: 'Run Test'
-  inputs:
-    command: test
-    projects: '**/*.csproj'
-    arguments: '--configure Debug --filter TestCategory=smoketest'
-    
+ 
+# Run Unit Tests
+- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger trx
+  displayName: 'Run Unit Tests'
