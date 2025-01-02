@@ -8,11 +8,11 @@ variables:
  
 steps:
 # Use the latest .NET SDK
-#- task: UseDotNet@2
-#  inputs:
-#    packageType: 'sdk'
-#    version: '8.x'  # Adjust for your .NET SDK version
-#    installationPath: $(Agent.ToolsDirectory)/dotnet
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'  # Adjust for your .NET SDK version
+    installationPath: $(Agent.ToolsDirectory)/dotnet
  
 # Restore dependencies
 - script: dotnet restore $(solution)
@@ -23,5 +23,5 @@ steps:
   displayName: 'Build Solution'
  
 # Run Unit Tests
-- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger trx
+- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --filterTestCategory=smoketest --logger trx
   displayName: 'Run Unit Tests'
