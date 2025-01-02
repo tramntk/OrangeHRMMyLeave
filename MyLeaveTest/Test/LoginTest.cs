@@ -22,7 +22,12 @@ namespace MyLeaveTest.Test
             loginPage = new LoginPage(driver);
             dashboardPage = new DashboardPage(driver);
         }
-
+        [TestCategory("smoketest")]
+        [TestMethod("TC001: Verify login successfully")]
+        public void VerifyPositiveLoginTest(){
+            loginPage.NavigateToLoginPage();
+        }
+        
         [TestMethod("TC001: Verify login successfully")]
         public void VerifyPositiveLoginTest()
         {
