@@ -1,5 +1,8 @@
 ﻿using Automation.Core.Helpers;
 using Automation.WebDriver;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+using MyLeaveTest.Model;
+using Newtonsoft.Json;
 using OpenQA.Selenium;
 using TestContext = Microsoft.VisualStudio.TestTools.UnitTesting.TestContext;
 
@@ -10,6 +13,12 @@ namespace MyLeaveTest.Test
     {
         protected IWebDriver driver;
         protected static ReportHelpers reportHelpers;
+
+        // Read messages data file
+        protected static string filePathMess = "Data/messagesdata.json";
+        protected static string jsonMess = File.ReadAllText(filePathMess);
+        protected Messages messagesData = JsonConvert.DeserializeObject<Messages>(jsonMess);
+
         public TestContext TestContext { get; set; }
         
         [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
@@ -17,7 +26,7 @@ namespace MyLeaveTest.Test
         {
             // Init report
             reportHelpers = new ReportHelpers();
-        }     
+        }   
 
         [TestInitialize]
         public void SetUpAndOpenBrowser()

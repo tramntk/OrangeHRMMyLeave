@@ -1,0 +1,8 @@
+﻿{
+  "LoginFail": "Invalid credentials",
+  "RequiredErr": "Required",
+  "DateFormatErr": "Should be a valid date in yyyy-dd-mm format",
+  "FromDateToDateErr": "To date should be after from date",
+  "NoRecords": "No Records Found",
+  "SuccessSubmit": "Successfully Saved"
+}

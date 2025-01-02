@@ -1,5 +1,7 @@
 ﻿using Automation.WebDriver;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using static OpenQA.Selenium.BiDi.Modules.BrowsingContext.Locator;
 
 namespace MyLeaveTest.Pages
 {
@@ -51,7 +53,6 @@ namespace MyLeaveTest.Pages
 
 
         // Methods
-
         // Get search result:
         public Dictionary<(int,int), string> GetMyLeaveList()
         {
@@ -113,10 +114,10 @@ namespace MyLeaveTest.Pages
         }
 
         // Select a date
-        public string SelectDate(int day)
+        public string SelectDate(int days)
         {
             DateTime today = DateTime.Now;
-            DateTime newDate = today.AddDays(day);
+            DateTime newDate = today.AddDays(days);
 
             string selectedDate = String.Concat((newDate.Year).ToString(), '-', (newDate.Day).ToString(), '-', (newDate.Month).ToString());
 
@@ -144,7 +145,7 @@ namespace MyLeaveTest.Pages
 
             toDate.SendKeys(Keys.Delete);
 
-            toDate.SendKeys(fdate);
+            toDate.SendKeys(tdate);
 
             toDate.SendKeys(Keys.Enter);
             
@@ -158,16 +159,9 @@ namespace MyLeaveTest.Pages
             leaveTypeOption.First().Click();
         }
 
-        public bool IsNoRecordsFoundHeader()
+        public string GetTableHeader()
         {
-            if (resultTableHeader.Text == "No Records Found")
-            {
-                return true;
-            }
-            else 
-            { 
-                return false; 
-            }
+            return resultTableHeader.Text;
         }
        
         public void ClearAllValueForLeaveStatus()
@@ -199,7 +193,7 @@ namespace MyLeaveTest.Pages
         }
 
         public string ToastMessageContent()
-        {    
+        {            
             try
             {
                 IJavaScriptExecutor js = (IJavaScriptExecutor)driver;

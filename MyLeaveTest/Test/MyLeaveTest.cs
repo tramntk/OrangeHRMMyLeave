@@ -52,19 +52,20 @@ namespace MyLeaveTest.Test
         public void VerifyNoRecordsFound()
         {
             // Step 1: Input From date, To Date: a date in future and To Date >= From Date 
-            string fromDate = myLeavePage.SelectDate(100);
-            string toDate = myLeavePage.SelectDate(300);
+            string fromDate = myLeavePage.SelectDate(50);
+            string toDate = myLeavePage.SelectDate(100);
             myLeavePage.InputFromDateToDate(fromDate, toDate);
 
             // Step 2: Click Search button
             myLeavePage.ClickSearchButton();
 
-            // Verify Table Result header return text "No Records Found"
-            myLeavePage.IsNoRecordsFoundHeader();
-
             // Verify content of Toast Message
             string toastMss = myLeavePage.ToastMessageContent();
-            StringAssert.Contains(toastMss, "No Records Found");
+            StringAssert.Contains(toastMss, messagesData.NoRecords);
+
+            // Verify Table Result header return text "No Records Found"
+            string headerResult = myLeavePage.GetTableHeader();
+            Assert.AreEqual(messagesData.NoRecords, headerResult);
         }
 
         [TestMethod("TC003: Verify error message when input From Date > To Date")]
@@ -77,7 +78,7 @@ namespace MyLeaveTest.Test
 
             // Verify that error message should be shown below To Date field with content "To date should be after from date"
             string errMss = myLeavePage.GetContentErrorMessageWhenFromDateGreaterThanToDate();
-            Assert.AreEqual("To date should be after from date", errMss);
+            Assert.AreEqual(messagesData.FromDateToDateErr, errMss);
         }
 
         [TestMethod("TC004: Verify that error will be shown when user does not input at mandatory fields")]
@@ -88,7 +89,7 @@ namespace MyLeaveTest.Test
 
             // Verify that error "Required" will be shown in red color at the bottom of the field[Status]
             string requiredMess = myLeavePage.GetRequireMessage();
-            Assert.AreEqual("Required", requiredMess);
+            Assert.AreEqual(messagesData.RequiredErr, requiredMess);
         }
 
         [TestMethod("TC005: Verify Click Reset button")]
@@ -147,6 +148,10 @@ namespace MyLeaveTest.Test
 
             // Create test data
             applyPage.CreateApply();
+
+            // Verify content of Toast Message
+            string toastMss = myLeavePage.ToastMessageContent();
+            StringAssert.Contains(toastMss, messagesData.SuccessSubmit);
         }
     }
 }
