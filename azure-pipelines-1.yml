@@ -8,11 +8,11 @@ variables:
  
 steps:
 # Use the latest .NET SDK
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '8.x'  # Adjust for your .NET SDK version
-    installationPath: $(Agent.ToolsDirectory)/dotnet
+#- task: UseDotNet@2
+#  inputs:
+#    packageType: 'sdk'
+#    version: '8.x'  # Adjust for your .NET SDK version
+#    installationPath: $(Agent.ToolsDirectory)/dotnet
  
 # Restore dependencies
 - script: dotnet restore $(solution)
