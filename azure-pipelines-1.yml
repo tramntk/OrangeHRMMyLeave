@@ -17,7 +17,10 @@ steps:
 - script: dotnet build --configuration Debug
   displayName: 'Build Solution'
 
-- task: DotNetCoreCLI@2
+- task: RunTest
+  displayName: 'Run Test'
   inputs:
     command: test
     projects: '**/*.csproj'
+    arguments: '--configure Debug --filter TestCategory=smoketest'
+    
