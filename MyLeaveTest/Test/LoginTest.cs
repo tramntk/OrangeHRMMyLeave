@@ -24,7 +24,7 @@ namespace MyLeaveTest.Test
         }
         [TestCategory("smoketest")]
         [TestMethod("TC001: Verify login successfully")]
-        public void VerifyPositiveLoginTest(){
+        public void VerifyPositiveLoginTest1(){
             loginPage.NavigateToLoginPage();
         }
         
