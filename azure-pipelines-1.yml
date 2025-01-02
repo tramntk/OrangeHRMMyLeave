@@ -23,5 +23,5 @@ steps:
   displayName: 'Build Solution'
  
 # Run Unit Tests
-- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --filterTestCategory=smoketest --logger trx
+- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger trx
   displayName: 'Run Unit Tests'
