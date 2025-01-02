@@ -50,7 +50,7 @@ namespace MyLeaveTest.Pages
 
             toDate.SendKeys(Keys.Delete);
 
-            toDate.SendKeys(fdate);
+            toDate.SendKeys(tdate);
 
             toDate.SendKeys(Keys.Enter);
 
@@ -77,6 +77,7 @@ namespace MyLeaveTest.Pages
 
         public void ClickApplyButton()
         {
+            driver.WaitToClick(applyButton);
             applyButton.Click();
         }
 
