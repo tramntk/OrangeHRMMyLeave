@@ -19,10 +19,10 @@ namespace MyLeaveTest.Pages
         private IWebElement comment => driver.FindElementByXPath("//label[contains(text(),'Comments')]/parent::div/following-sibling::div/textarea");
         private IWebElement applyButton => driver.FindElementByXPath("//button[@type = 'submit']");
 
-        public string SelectDate(int day)
+        public string SelectDate(int days)
         {
             DateTime today = DateTime.Now;
-            DateTime newDate = today.AddDays(day);
+            DateTime newDate = today.AddDays(days);
 
             string selectedDate = String.Concat((newDate.Year).ToString(), '-' ,(newDate.Day).ToString(), '-' , (newDate.Month).ToString());
 

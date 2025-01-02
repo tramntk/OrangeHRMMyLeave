@@ -66,10 +66,6 @@ namespace MyLeaveTest.Test
             // Verify Table Result header return text "No Records Found"
             string headerResult = myLeavePage.GetTableHeader();
             Assert.AreEqual(messagesData.NoRecords, headerResult);
-
-
-
-            Thread.Sleep(5000);
         }
 
         [TestMethod("TC003: Verify error message when input From Date > To Date")]
