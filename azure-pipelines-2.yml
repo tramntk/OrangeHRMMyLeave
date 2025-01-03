@@ -32,7 +32,7 @@ steps:
 
 - task: PublishTestResults@2
   inputs:
-    testResultsFiles: '**/TestResults.trx'
+    testResultsFiles: '**/.html'
     testRunTitle: 'MSTest Results'
     mergeTestResults: true
 
