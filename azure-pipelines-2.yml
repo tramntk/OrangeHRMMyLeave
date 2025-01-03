@@ -30,6 +30,13 @@ steps:
 - script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger trx --filter "TestCategory=smoketest"
   displayName: 'Run Unit Tests'
 
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: : 'Report'
+    artifact: : 'MSTest Results'
+    publishLocation: pipeline
+  condition: successOrFailed()
+  continueOnError: 
 - task: PublishTestResults@2
   inputs:
     testResultsFiles: '**/TestResults.trx'
