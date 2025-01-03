@@ -39,6 +39,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathToPublish: '$(Build.ArtifactStagingDirectory)/MyLeaveTest/bin/Debug/net8.0/Reports'
+    pathToPublish: '$(Build.SourcesDirectory)/Reports'
     artifactName: 'TestReport'
     publishLocation: 'Container'
