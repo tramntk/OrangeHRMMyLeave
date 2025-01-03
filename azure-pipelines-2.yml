@@ -30,13 +30,12 @@ steps:
 - script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger trx --filter "TestCategory=smoketest"
   displayName: 'Run Unit Tests'
 
-# Publish Test Results
 - task: PublishTestResults@2
   inputs:
-    testResultsFiles: '**/*.trx'
-    testRunTitle: 'Unit Test Results'
- 
-# Publish Build Artifacts
+    testResultsFiles: '**/TestResults.trx'
+    testRunTitle: 'MSTest Results'
+    mergeTestResults: true
+
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: '$(Build.ArtifactStagingDirectory)'
