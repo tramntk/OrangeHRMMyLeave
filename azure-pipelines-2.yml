@@ -27,15 +27,8 @@ steps:
   displayName: 'Build Solution'
  
 # Run Unit Tests
-- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger trx --filter "TestCategory=smoketest"
-  displayName: 'Run Unit Tests'
-
-#- task: PublishPipelineArtifact@1
-#  inputs:
-#    targetPath: '$(Pipeline.Workspace)'
-#    artifact: 'prod'
-#    publishLocation: pipeline
-#  condition: successOrFailed()
+- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger "trx;LogFileName=TestResults.trx" --filter "TestCategory=smoketest"
+  displayName: 'Run Smoke Tests'
 
 - task: PublishTestResults@2
   inputs:
@@ -46,5 +39,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: '$(Build.ArtifactStagingDirectory)'
-    artifactName: 'drop'
+    artifactName: 'TestReport'
     publishLocation: 'Container'
