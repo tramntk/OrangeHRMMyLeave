@@ -1,7 +1,5 @@
 ﻿using Automation.WebDriver;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using static OpenQA.Selenium.BiDi.Modules.BrowsingContext.Locator;
 
 namespace MyLeaveTest.Pages
 {
@@ -9,7 +7,6 @@ namespace MyLeaveTest.Pages
     {
         public MyLeavePage(IWebDriver _driver) : base(_driver)
         {
-
         }
 
         private Dictionary<(int, int), string> tableDictionary;
@@ -36,11 +33,11 @@ namespace MyLeaveTest.Pages
         // Buttons
         private IWebElement searchButton => driver.FindElementByXPath("//button[@type='submit']");
         private IWebElement resetButton => driver.FindElementByXPath("//button[@type='reset']");
-        private IWebElement cancelButtonOnTopOfTable => driver.FindElementByXPath("//div[@class='actions']/button");
         
         // Labels
         private IWebElement errMessForLeaveStatus => driver.FindElementByXPath("//label[text()='Show Leave with Status']/../following-sibling::span");
         private IWebElement errMessForToDate => driver.FindElementByXPath("//label[text() = 'To Date']/../following-sibling::span");
+        private IWebElement errMessForFromDate => driver.FindElementByXPath("//label[text() = 'From Date']/../following-sibling::span");
         private IWebElement toDateLabel => driver.FindElementByXPath("//label[text()='To Date']");
 
         // Result table
@@ -48,9 +45,7 @@ namespace MyLeaveTest.Pages
         
         // row list
         private IList<IWebElement> rows => driver.FindElementsByXPath("//div[@role = 'row']");
-        // cell list
-        private IList<IWebElement> cells => driver.FindElementsByXPath("//div[@role = 'cell']");
-
+        
 
         // Methods
         // Get search result:
@@ -177,7 +172,12 @@ namespace MyLeaveTest.Pages
            return errMessForLeaveStatus.Text;            
         }
 
-        public string GetContentErrorMessageWhenFromDateGreaterThanToDate()
+        public string GetContentErrorMessageOfFromDate()
+        {
+            return errMessForFromDate.Text;
+        }
+
+        public string GetContentErrorMessageOfToDate()
         {
             return errMessForToDate.Text;
         }
@@ -189,7 +189,7 @@ namespace MyLeaveTest.Pages
 
         public void ClickResetButton()
         {
-            resetButton.Click();
+            resetButton.Click(); 
         }
 
         public string ToastMessageContent()

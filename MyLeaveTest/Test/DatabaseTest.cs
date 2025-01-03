@@ -18,8 +18,8 @@ namespace MyLeaveTest.Test
         [TestMethod]
         public void VerifyCourseInfo() {
             var result = databaseService.GetCourseInformation();
-            Assert.AreEqual(result.Name, "SQL Basic");
-            Assert.AreEqual(result.IdCourse, 1);
+            Assert.AreEqual("SQL Basic", result.Name);
+            Assert.AreEqual(1, result.IdCourse);
         }
     }
 }

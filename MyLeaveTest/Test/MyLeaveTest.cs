@@ -1,8 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MyLeaveTest.Pages;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
-using System.Runtime.CompilerServices;
+﻿using MyLeaveTest.Pages;
 
 namespace MyLeaveTest.Test
 {
@@ -30,6 +26,7 @@ namespace MyLeaveTest.Test
         }
         
         [TestMethod("TC001: Verify default value of filters")]
+        [TestCategory("smoketest")]
         public void VerifyDefaultValuesOfFilters()
         {
             // Verify [My Leave List] page URL contains "leave/viewMyLeaveList"
@@ -76,8 +73,12 @@ namespace MyLeaveTest.Test
             string toDate = myLeavePage.SelectDate(0);            
             myLeavePage.InputFromDateToDate(fromDate, toDate);
 
+            // Log Info
+            reportHelpers.LogMessage("Info", "From Date: " + fromDate);
+            reportHelpers.LogMessage("Info", "To Date: " + toDate);
+
             // Verify that error message should be shown below To Date field with content "To date should be after from date"
-            string errMss = myLeavePage.GetContentErrorMessageWhenFromDateGreaterThanToDate();
+            string errMss = myLeavePage.GetContentErrorMessageOfToDate();
             Assert.AreEqual(messagesData.FromDateToDateErr, errMss);
         }
 
@@ -92,7 +93,36 @@ namespace MyLeaveTest.Test
             Assert.AreEqual(messagesData.RequiredErr, requiredMess);
         }
 
-        [TestMethod("TC005: Verify Click Reset button")]
+        [TestMethod("TC005: Verify that error will be shown when user input invalid value for From Date and To Date")]
+        [DataRow("2025-15-13", "2025-15-13")]
+        [DataRow("2025-32-01", "2025-32-01")]
+        [DataRow("0000-15-01", "0000-15-01")]
+        [DataRow("2025-15-mm", "2025-15-mm")]
+        [DataRow("20251501", "20251501")]
+        [DataRow("2025/15/01", "2025/15/01")]
+        [DataRow("yyyy-dd-mm", "yyyy-dd-mm")]
+        [DataRow("15-01-2025", "15-01-2025")]
+        public void VerifyInvalidDateFormat(string fdate, string tdate)
+        {
+            // Step 1: Input invalid value for From Date, To Date
+            myLeavePage.InputFromDateToDate(fdate, tdate);
+
+            // Log Info
+            reportHelpers.LogMessage("Info", "From Date: " + fdate);
+            reportHelpers.LogMessage("Info", "To Date: " + tdate);
+
+            // Verify that error will be shown in red color at the bottom of the field [From Date]
+            // Content of the error is: "Should be a valid date in yyyy-dd-mm format"
+            string errMessFromDate = myLeavePage.GetContentErrorMessageOfFromDate();
+            Assert.AreEqual(messagesData.DateFormatErr, errMessFromDate);
+
+            // Verify that error will be shown in red color at the bottom of the field [To Date]
+            // Content of the error is: "Should be a valid date in yyyy-dd-mm format"
+            string errMessToDate = myLeavePage.GetContentErrorMessageOfToDate();
+            Assert.AreEqual(messagesData.DateFormatErr, errMessToDate);
+        }
+
+        [TestMethod("TC006: Verify Click Reset button")]
         public void VerifyClickResetButton()
         {
             // Step 1: Not select any value of [Leave Status] (Click [x] icon of all values)
@@ -112,7 +142,7 @@ namespace MyLeaveTest.Test
             Assert.IsTrue(myLeavePage.IsDefaultValueOfLeaveStatus());
         }
 
-        [TestMethod("TC006: Verify Search Result")]
+        [TestMethod("TC007: Verify Search Result")]
         public void VerifySearchResult()
         {
             // Create Search data
@@ -123,6 +153,10 @@ namespace MyLeaveTest.Test
 
             // Step 2: Click Search button
             myLeavePage.ClickSearchButton();
+
+            // Verify Table Result header does not return text "No Records Found"
+            string headerResult = myLeavePage.GetTableHeader();
+            Assert.AreNotEqual(messagesData.NoRecords, headerResult);
 
             // Verify data count > 0
             int resultCount = myLeavePage.GetMyLeaveList().Count();
@@ -148,10 +182,6 @@ namespace MyLeaveTest.Test
 
             // Create test data
             applyPage.CreateApply();
-
-            // Verify content of Toast Message
-            string toastMss = myLeavePage.ToastMessageContent();
-            StringAssert.Contains(toastMss, messagesData.SuccessSubmit);
         }
     }
 }

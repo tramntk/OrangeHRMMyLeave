@@ -77,7 +77,6 @@ namespace MyLeaveTest.Pages
 
         public void ClickApplyButton()
         {
-            driver.WaitToClick(applyButton);
             applyButton.Click();
         }
 
