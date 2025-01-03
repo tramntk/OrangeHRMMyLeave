@@ -26,18 +26,18 @@ steps:
 - script: dotnet build $(solution) --configuration $(buildConfiguration) --no-restore
   displayName: 'Build Solution'
  
-# Run Unit Tests
+# Run Smoke Tests
 - script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger "trx" --filter "TestCategory=smoketest"
   displayName: 'Run Smoke Tests'
 
 # Publish Test Results
 - task: PublishTestResults@2
   inputs:
-    testResultsFiles: '**/TestResults.trx'
+    testResultsFiles: '**/Report_*.html'
     testRunTitle: 'MSTest Results'
     mergeTestResults: true
 
-- task: PublishPipelineArtifact@1
+- task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: '$(Build.ArtifactStagingDirectory)/MyLeaveTest/bin/Debug/net8.0/Reports'
     artifactName: 'TestReport'
