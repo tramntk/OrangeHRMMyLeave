@@ -1,0 +1,31 @@
+trigger:
+  branches:
+    include:
+      - main 
+
+pool:
+  name: 'mypool'  # Use your defined agent pool
+  demands: agent.name -equals desktopAgent
+variables:
+  buildConfiguration: 'Debug'  # Set build configuration
+  solution: 'MyLeaveTest.sln'  # Solution file location
+ 
+steps:
+# Use the latest .NET SDK
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.x'  # Adjust for your .NET SDK version
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+ 
+# Restore dependencies
+- script: dotnet restore $(solution)
+  displayName: 'Restore Dependencies'
+ 
+# Build the solution
+- script: dotnet build $(solution) --configuration $(buildConfiguration) --no-restore
+  displayName: 'Build Solution'
+ 
+# Run Unit Tests
+- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger trx --filter "TestCategory=smoketest"
+  displayName: 'Run Unit Tests'
