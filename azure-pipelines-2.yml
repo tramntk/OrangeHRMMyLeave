@@ -27,13 +27,13 @@ steps:
   displayName: 'Build Solution'
  
 # Run Smoke Tests
-- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger "trx" --filter "TestCategory=smoketest"
+- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger "trx;LogFileName=TestResults.trx" --filter "TestCategory=smoketest"
   displayName: 'Run Smoke Tests'
 
 # Publish Test Results
 - task: PublishTestResults@2
   inputs:
-    testResultsFiles: '**/Report_*.html'
+    testResultsFiles: '**/TestResults.trx'
     testRunTitle: 'MSTest Results'
     mergeTestResults: true
 
