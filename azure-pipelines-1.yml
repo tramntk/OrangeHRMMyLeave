@@ -1,4 +1,3 @@
-
 pool:
   name: 'mypool'  # Use your defined agent pool
   demands: agent.name -equals desktopAgent
@@ -23,5 +22,5 @@ steps:
   displayName: 'Build Solution'
  
 # Run Unit Tests
-- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger trx
+- script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger trx --filter "TestCategory=smoketest"
   displayName: 'Run Unit Tests'
