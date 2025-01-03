@@ -29,12 +29,14 @@ steps:
 # Run Smoke Tests
 - script: dotnet test $(solution) --configuration $(buildConfiguration) --no-build --logger "trx;LogFileName=TestResults.trx" --filter "TestCategory=smoketest"
   displayName: 'Run Smoke Tests'
+  
 # Publish Test Results
 - task: PublishTestResults@2
   inputs:
     testResultsFiles: '$(Build.SourcesDirectory)/TestResults.trx'
     testRunTitle: 'MSTest Results'
     mergeTestResults: true
+
 # Publish Build Artifacts
 - task: PublishBuildArtifacts@1
   inputs:
