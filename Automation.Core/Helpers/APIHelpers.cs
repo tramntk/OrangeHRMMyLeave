@@ -13,7 +13,7 @@ namespace Automation.Core.Helpers
 {
     public  class APIHelpers
     {
-        static RestClient client;
+        private static RestClient client;
 
         // Handle Get method
         public static T ExecuteGet<T>(string path) where T : new()

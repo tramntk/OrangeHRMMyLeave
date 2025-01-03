@@ -1,11 +1,5 @@
-﻿using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using MyLeaveTest.Pages;
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using MyLeaveTest.Pages;
 using Automation.Core.Helpers;
-using Automation.WebDriver;
 
 namespace MyLeaveTest.Test
 {

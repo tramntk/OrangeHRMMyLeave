@@ -1,9 +1,4 @@
 ﻿using MyLeaveTest.Pages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyLeaveTest.Test
 {
@@ -14,12 +9,11 @@ namespace MyLeaveTest.Test
         private LeftMenuPage leftMenuPage;
 
         [TestInitialize]
-        //Init leftmenu
+        // Init leftmenu
         public void InitLeftMenu()
         {
             loginPage = new LoginPage(driver);
             leftMenuPage = new LeftMenuPage(driver);
-
             loginPage.IsLoginSuccessfully();
         }
 
@@ -44,6 +38,7 @@ namespace MyLeaveTest.Test
         }
 
         [TestMethod("TC003: Navigate to Leave page")]
+        [TestCategory("smoketest")]
         public void NavigateToLeavePage()
         {
             // Step 1: click Leave option on LeftMenu

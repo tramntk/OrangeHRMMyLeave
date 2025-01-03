@@ -17,12 +17,6 @@ namespace MyLeaveTest
             var result = SqlHelpers.ExecuteQuery<Course>(connectionString, query);
             return result.FirstOrDefault();
         }
-        public List<Score> GetUserScore()
-        {
-            string query = Queries.querySelectScore;
-            var result = SqlHelpers.ExecuteQuery<Score>(connectionString, query);
-            return result;
-        }
     }
 
     
