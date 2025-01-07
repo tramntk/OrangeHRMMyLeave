@@ -34,7 +34,7 @@ steps:
 - task: PublishHtmlReport@1
   displayName: 'Publish HTML Report'
   inputs:
-    reportDir: '$(Build.SourcesDirectory)/MyLeaveTest/bin/Debug/net8.0/Reports/Report*.html'
+    reportDir: '$(Build.SourcesDirectory)/MyLeaveTest/bin/Debug/net8.0/Reports/'
 #- task: PublishTestResults@2
 #  inputs:
 #    testResultsFiles: '$(Build.SourcesDirectory)/TestResults.trx'
