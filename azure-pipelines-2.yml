@@ -31,11 +31,15 @@ steps:
   displayName: 'Run Smoke Tests'
   
 # Publish Test Results
-- task: PublishTestResults@2
+- task: PublishHtmlReport@1
+  displayName: 'Publish HTML Report'
   inputs:
-    testResultsFiles: '$(Build.SourcesDirectory)/TestResults.trx'
-    testRunTitle: 'MSTest Results'
-    mergeTestResults: true
+    reportDir: '$(Build.SourcesDirectory)/MyLeaveTest/bin/Debug/net8.0/Reports/Report*.html'
+#- task: PublishTestResults@2
+#  inputs:
+#    testResultsFiles: '$(Build.SourcesDirectory)/TestResults.trx'
+#    testRunTitle: 'MSTest Results'
+#    mergeTestResults: true
 
 # Publish Build Artifacts
 - task: PublishBuildArtifacts@1
